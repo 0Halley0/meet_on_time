@@ -1,6 +1,6 @@
 # meet_on_time
 
-A new Flutter project.
+YM341 Flutter projesi
 
 ## Getting Started
 
