@@ -274,7 +274,7 @@ class _AuthDialogState extends State<AuthDialog> {
                                     Future.delayed(Duration(milliseconds: 500),
                                         () {
                                       //
-                                      addParticipants(p);
+                                      newParticipants(p);
                                       //
                                       Navigator.of(context).pop();
                                       Navigator.of(context)

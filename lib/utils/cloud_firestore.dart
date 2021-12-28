@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import '../widgets/auth_dialog.dart';
 import '../data/model/participant.dart';
-import '../data/model/event.dart';
 
 /* 
 Kullanici olayin ismini, yerini, notlarini vs. secer
@@ -36,7 +33,7 @@ CollectionReference firestoreEvents =
 // Future<void> addParticipants(
 //    String? pid, List<bool>? participantChoices, String? participantEmail) {
 // Call the participants' CollectionReference to add a new user
-Future<void> addParticipants(Participant participant) {
+Future<void> newParticipants(Participant participant) {
   return firestoreParticipants
       .add({
         'pid': participant.pid,
@@ -45,22 +42,6 @@ Future<void> addParticipants(Participant participant) {
       })
       .then((value) => print("Participant Added"))
       .catchError((error) => print("Failed to add participants: $error"));
-}
-
-Future<void> addEvent(Event event) {
-  return firestoreEvents
-      .add({
-        'creatorUID': event.creatorUID,
-        'eventName': event.eventName,
-        'eventLocation': event.eventLocation,
-        'eventNotes': event.eventNotes,
-        'eventSettings': event.eventSettings,
-        'participants': event.participants,
-        'eventTime': event.eventTime,
-        'eventChoices': event.eventChoices,
-      })
-      .then((value) => print("Event Added"))
-      .catchError((error) => print("Failed to add event: $error"));
 }
 
 Future<void> newEvent(
@@ -80,7 +61,6 @@ Future<void> newEvent(
       .catchError((error) => print("Failed to add event: $error"));
 }
 
-// yeni eklendi
 Future<void> eventOptions(String eventChoices, Timestamp eventTime) {
   return firestoreEvents
       .add({
@@ -89,4 +69,11 @@ Future<void> eventOptions(String eventChoices, Timestamp eventTime) {
       })
       .then((value) => print("Event Added"))
       .catchError((error) => print("Failed to add event: $error"));
+}
+
+Future<void> boolSettings(bool eventSettings, bool eventSettings2) {
+  return firestoreEvents.add({
+    'eventSettings': eventSettings,
+    'eventSettings2': eventSettings2,
+  });
 }

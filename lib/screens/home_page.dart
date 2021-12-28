@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meet_on_time/screens/event_page.dart';
 import 'package:meet_on_time/utils/authentication.dart';
 import 'package:meet_on_time/widgets/auth_dialog.dart';
 
@@ -182,9 +183,9 @@ class _HomePageState extends State<HomePage> {
                 left: screenSize.width / 5,
                 right: screenSize.width / 5,
               ),
-              child: Card(
-                  //içi sonra doldurulacak
-                  ),
+
+              ///if ile aç
+              child: EventPage(),
             ),
           ),
         ],

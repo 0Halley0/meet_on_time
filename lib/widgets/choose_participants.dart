@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_on_time/screens/event_page.dart';
 
 class ChooseParticipantsDialog extends StatefulWidget {
   @override
@@ -74,6 +76,8 @@ class ChooseParticipantsForm extends StatefulWidget {
 class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
   final _chooseparticipantsFormKey = GlobalKey<ChooseParticipantsFormState>();
 
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -83,31 +87,46 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
         children: <Widget>[
           TextFormField(
             decoration: const InputDecoration(
-                icon: Icon(Icons.notes_rounded),
-                hintText: 'Additioal note (optional)'),
+                icon: Icon(Icons.email), hintText: 'New Participant email'),
             onChanged: (value) {},
             validator: (value) {
               return null;
             },
           ),
           SizedBox(height: 10),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => ChooseParticipantsDialog(),
-                );
-                if (_chooseparticipantsFormKey.currentState != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Sending Data to Cloud Firestore'),
-                    ),
+          Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    //firestore'dan Participants'tan participantEmail alacak ve  Events içindeki participants'a ekleyecek
+                    //firestore.collection("Participants").doc('')
+
+                    if (_chooseparticipantsFormKey.currentState != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Sending Data to Cloud Firestore'),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text('Add')),
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => EventPage(),
                   );
-                }
-              },
-              child: Text('Next'),
-            ),
+                  if (_chooseparticipantsFormKey.currentState != null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Sending Data to Cloud Firestore'),
+                      ),
+                    );
+                  }
+                },
+                child: Text('Next'),
+              )
+            ],
           )
         ],
       ),
