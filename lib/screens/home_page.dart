@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               ),
 
               ///if ile aç
-              child: EventPage(),
+              //child: EventPage(),
             ),
           ),
         ],

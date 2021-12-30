@@ -27,8 +27,19 @@ String pid = auth.currentUser!.uid.toString();
 CollectionReference firestoreParticipants =
     FirebaseFirestore.instance.collection('Participants');
 
-CollectionReference firestoreEvents =
-    FirebaseFirestore.instance.collection('Events');
+DocumentReference firestoreEvents_newEvent =
+    FirebaseFirestore.instance.collection('Events').doc('newEvent');
+
+DocumentReference firestoreEvents_eventOptions =
+    FirebaseFirestore.instance.collection('Events').doc('eventOptions');
+
+DocumentReference firestoreEvents_boolSettings =
+    FirebaseFirestore.instance.collection('Events').doc('boolSettings');
+
+DocumentReference firestoreEvents_addParticipantToEvent = FirebaseFirestore
+    .instance
+    .collection('Events')
+    .doc('addParticipantToEvent');
 
 // Future<void> addParticipants(
 //    String? pid, List<bool>? participantChoices, String? participantEmail) {
@@ -46,8 +57,8 @@ Future<void> newParticipants(Participant participant) {
 
 Future<void> newEvent(
     String eventName, String eventLocation, String eventNotes) {
-  return firestoreEvents
-      .add({
+  return firestoreEvents_newEvent
+      .set({
         // 'creatorUID': event.creatorUID,
         'eventName': eventName,
         'eventLocation': eventLocation,
@@ -62,8 +73,8 @@ Future<void> newEvent(
 }
 
 Future<void> eventOptions(String eventChoices, Timestamp eventTime) {
-  return firestoreEvents
-      .add({
+  return firestoreEvents_eventOptions
+      .set({
         'eventTime': eventTime,
         'eventChoices': eventChoices,
       })
@@ -72,8 +83,14 @@ Future<void> eventOptions(String eventChoices, Timestamp eventTime) {
 }
 
 Future<void> boolSettings(bool eventSettings, bool eventSettings2) {
-  return firestoreEvents.add({
+  return firestoreEvents_boolSettings.set({
     'eventSettings': eventSettings,
     'eventSettings2': eventSettings2,
+  });
+}
+
+Future<void> addParticipantToEvent(List<String> email) {
+  return firestoreEvents_addParticipantToEvent.set({
+    'participants': email,
   });
 }

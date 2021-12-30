@@ -77,6 +77,7 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
   final _chooseparticipantsFormKey = GlobalKey<ChooseParticipantsFormState>();
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var emailList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +89,9 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
           TextFormField(
             decoration: const InputDecoration(
                 icon: Icon(Icons.email), hintText: 'New Participant email'),
-            onChanged: (value) {},
+            onChanged: (value) {
+              emailList.add(value);
+            },
             validator: (value) {
               return null;
             },
@@ -98,8 +101,15 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
             children: [
               ElevatedButton(
                   onPressed: () {
+                    FirebaseFirestore.instance
+                        .collection('Events')
+                        .doc('addParticipantToEvent')
+                        .update(
+                            {"participants": FieldValue.arrayUnion(emailList)});
+
                     //firestore'dan Participants'tan participantEmail alacak ve  Events içindeki participants'a ekleyecek
                     //firestore.collection("Participants").doc('')
+                    // e-mail'i Participant icinden bulup, Events'in içindeki participants'a eklyecek
 
                     if (_chooseparticipantsFormKey.currentState != null) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -112,9 +122,9 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
                   child: Text('Add')),
               ElevatedButton(
                 onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => EventPage(),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EventPage()),
                   );
                   if (_chooseparticipantsFormKey.currentState != null) {
                     ScaffoldMessenger.of(context).showSnackBar(

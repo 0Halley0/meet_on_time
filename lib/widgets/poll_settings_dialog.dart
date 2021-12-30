@@ -113,8 +113,9 @@ class pollSettingsFormState extends State<pollSettingsForm> {
             child: ElevatedButton(
               onPressed: () {
                 // boolSettings(eventSettings, eventSettings2);
-                firestore.collection("Events").doc('testing_document').set({
-                  'evetnSettings': _hiddenPollToggle,
+                // uid + saat
+                firestore.collection("Events").doc('boolSettings').set({
+                  'eventSettings': _hiddenPollToggle,
                   'eventSettings2': _singleVoteToggle,
                 });
                 showDialog(
