@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:polls/polls.dart';
 import 'package:flutter/material.dart';
+import 'dart:core';
+import 'package:collection/collection.dart';
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
@@ -10,7 +11,41 @@ class EventPage extends StatefulWidget {
 }
 
 class _EventPageState extends State<EventPage> {
-  bool _isProcessing = false;
+  late List<bool> isSelected = [];
+
+  final List<Map> _items = [
+    {
+      'id': 1,
+      'Event Time': 't1',
+      'Event Choices': 'c1',
+    },
+    {
+      'id': 2,
+      'Event Time': 't2',
+      'Event Choices': 'c2',
+    },
+    {
+      'id': 3,
+      'Event Time': 't3',
+      'Event Choices': 'c3',
+    },
+    {
+      'id': 4,
+      'Event Time': 't4',
+      'Event Choices': 'c4',
+    },
+    {
+      'id': 5,
+      'Event Time': 't5',
+      'Event Choices': 'c5',
+    }
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    isSelected = List<bool>.generate(_items.length, (index) => false);
+  }
 
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
@@ -43,96 +78,78 @@ class _EventPageState extends State<EventPage> {
           ),
         ),
       ),
-      body: Stack(
+      body: ListView(
         children: <Widget>[
           Align(
             alignment: Alignment.center,
-
-/* 
-            child: Polls(
-              children: [
-                Polls.options(title: title1, value: option1),
-                Polls.options(title: title2, value: option2),
-                Polls.options(title: title3, value: option3),
-                Polls.options(title: title4, value: option4),
-                Polls.options(title: title5, value: option5),
-              ],
-              question: Text('eventName+ loc+ not'),
-              currentUser: this.user, //pid
-              creatorID: this.creator, //creatorUID
-              voteData: usersWhoVoted, //'Events' içindeki participants
-              userChoice: usersWhoVoted[this.user],
-              onVoteBackgroundColor: const Color(0xFFE3B23C),
-              leadingBackgroundColor: const Color(0xFF6E675F),
-              backgroundColor: const Color(0xFFEDEBD7),
-              //viewType: PollsType.creator
-              //viewType: PollsType.voter
-              //viewType: PollsType.readOnly
-              onVote: (choice) {
-                setState(() {
-                  this.usersWhoVoted[this.user] = choice;
-                });
-                if (choice == 1) {
-                  setState(() {
-                    option1 += 1.0;
-                  });
-
-                  if (choice == 2) {
-                    setState(() {
-                      option2 += 1.0;
-                    });
-                  }
-
-                  if (choice == 3) {
-                    setState(() {
-                      option3 += 1.0;
-                    });
-                  }
-
-                  if (choice == 4) {
-                    setState(() {
-                      option4 += 1.0;
-                    });
-                  }
-                }
-              },
-            ),*/
+            child: _createDataTable(),
           ),
         ],
       ),
     );
   }
+
+  DataTable _createDataTable() {
+    return DataTable(columns: _createColumns(), rows: _createRows());
+  }
+
+  List<DataColumn> _createColumns() {
+    return [
+      DataColumn(label: Text('ID')),
+      DataColumn(label: Text('Time')),
+      DataColumn(label: Text('Option'))
+    ];
+  }
+
+  List<DataRow> _createRows() {
+    return _items
+        .mapIndexed((index, item) => DataRow(
+                cells: [
+                  DataCell(Text('#' + item['id'].toString())),
+                  DataCell(Text(item['event time'])),
+                  DataCell(Text(item['event choices']))
+                ],
+                selected: isSelected[index],
+                onSelectChanged: (bool? selected) {
+                  setState(() {
+                    isSelected[index] = selected!;
+                  });
+                }))
+        .toList();
+  }
 }
 
-            /* child: Padding(
-              padding: EdgeInsets.only(top: screenSize.height / 50),
-              child: DataTable(
-                //6 sütun 4 satır
-                sortColumnIndex: 0,
-                sortAscending: true,
-                columns: [
-                  DataColumn(label: Text('  ')),
-                  DataColumn(
-                    label: Text('sütun2'), //numeric: true
-                  ),
-                  DataColumn(label: Text('sütun3')),
-                  DataColumn(label: Text('sütun4')),
-                  DataColumn(label: Text('sütun5')),
-                  DataColumn(label: Text('sütun6')),
-                ],
-                rows: [
-                  DataRow(cells: [
-                    DataCell(
-                      Text('örnek'),
+/* Padding(
+                padding: EdgeInsets.only(top: screenSize.height / 50),
+                child: DataTable(
+                  //6 sütun 4 satır
+                  sortColumnIndex: 0,
+                  sortAscending: true,
+                  showCheckboxColumn: true,
+                  showBottomBorder: false,
+                  dividerThickness: 1.0,
+                  columns: [
+                    DataColumn(label: Text('  ')),
+                    DataColumn(
+                      label: Text('sütun2'), //numeric: true
                     ),
-                    DataCell(
-                      Text('örnek'), //placeholder: true
-                    )
-                  ]),
-                  DataRow(cells: [
-                    DataCell(Text('örnek')),
-                    DataCell(Text('örnek'))
-                  ]),
-                ],
-              )), */
-
+                    DataColumn(label: Text('sütun3')),
+                    DataColumn(label: Text('sütun4')),
+                    DataColumn(label: Text('sütun5')),
+                    DataColumn(label: Text('sütun6')),
+                  ],
+                  rows: [
+                    DataRow(cells: [
+                      DataCell(
+                        Text('örnek'),
+                      ),
+                      DataCell(
+                        Text('örnek'), //placeholder: true
+                      )
+                    ]),
+                    DataRow(cells: [
+                      DataCell(Text('örnek')),
+                      DataCell(Text('örnek'))
+                    ]),
+                  ],
+                )), */

@@ -42,7 +42,6 @@ dependencies:
   google_fonts: ^2.1.0
   google_sign_in: ^5.2.1
   google_sign_in_web: ^0.10.0+3
-  polls: ^1.0.1
   shared_preferences: ^2.0.11
   widgets: ^1.4.5
 

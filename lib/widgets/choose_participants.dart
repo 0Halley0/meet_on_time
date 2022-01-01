@@ -78,6 +78,7 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   var emailList = [];
+  String _emailValue = '';
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +91,7 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
             decoration: const InputDecoration(
                 icon: Icon(Icons.email), hintText: 'New Participant email'),
             onChanged: (value) {
-              emailList.add(value);
+              _emailValue = value;
             },
             validator: (value) {
               return null;
@@ -101,6 +102,7 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
             children: [
               ElevatedButton(
                   onPressed: () {
+                    emailList.add(_emailValue);
                     FirebaseFirestore.instance
                         .collection('Events')
                         .doc('addParticipantToEvent')

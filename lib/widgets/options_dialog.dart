@@ -91,7 +91,13 @@ class optionForm extends StatefulWidget {
 class optionFormState extends State<optionForm> {
   final _optionFormKey = GlobalKey<optionFormState>();
 
-  TextEditingController eventChoicesController = TextEditingController();
+  //TextEditingController eventChoicesController = TextEditingController();
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  var eventChoicesList = [];
+  String _ecValue = '';
+
+  var eventTimeList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -119,11 +125,13 @@ class optionFormState extends State<optionForm> {
             },
           ),
           TextFormField(
-            controller: eventChoicesController,
+            //controller: eventChoicesController,
             decoration: const InputDecoration(
                 icon: Icon(Icons.notes_rounded),
                 hintText: 'Additional note (optional)'),
-            onChanged: (value) {},
+            onChanged: (value) {
+              _ecValue = value;
+            },
             validator: (value) {
               return null;
             },
@@ -133,8 +141,23 @@ class optionFormState extends State<optionForm> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    eventOptions(eventChoicesController.text, dateTimeStamp);
-                    eventChoicesController.clear();
+                    //eventOptions(eventChoicesController.text, dateTimeStamp);
+                    //eventChoicesController.clear();
+                    eventChoicesList.add(_ecValue);
+                    FirebaseFirestore.instance
+                        .collection('Events')
+                        .doc('eventOptions')
+                        .update({
+                      "eventChoices": FieldValue.arrayUnion(eventChoicesList)
+                    });
+
+                    eventTimeList.add(dateText);
+                    FirebaseFirestore.instance
+                        .collection('Events')
+                        .doc('eventOptions')
+                        .update({
+                      "eventTime": FieldValue.arrayUnion(eventTimeList)
+                    });
 
                     if (_optionFormKey.currentState != null) {
                       ScaffoldMessenger.of(context).showSnackBar(

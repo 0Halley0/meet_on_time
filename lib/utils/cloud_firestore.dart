@@ -72,7 +72,8 @@ Future<void> newEvent(
       .catchError((error) => print("Failed to add event: $error"));
 }
 
-Future<void> eventOptions(String eventChoices, Timestamp eventTime) {
+Future<void> eventOptions(
+    List<String> eventChoices, List<Timestamp> eventTime) {
   return firestoreEvents_eventOptions
       .set({
         'eventTime': eventTime,
