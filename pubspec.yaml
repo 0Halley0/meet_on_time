@@ -64,6 +64,23 @@ flutter:
   assets:
     - lib/assets/images/choice.jpg
     - lib/assets/images/google_logo.png
+    - lib/assets/images/undraw_Choose_re_7d5a.png
+    - lib/assets/images/undraw_Connection_re_lcud.png
+    - lib/assets/images/undraw_Events_re_98ue.png
+    - lib/assets/images/undraw_File_bundle_re_6q1e.png
+    - lib/assets/images/undraw_Map_dark_re_36sy.png
+    - lib/assets/images/undraw_Mobile_inbox_re_ciwq.png
+    - lib/assets/images/undraw_Personal_settings_re_i6w4.png
+    - lib/assets/images/undraw_Real_time_sync_re_nky7.png
+    - lib/assets/images/undraw_Schedule_re_2vro.png
+    - lib/assets/images/undraw_Security_re_a2rk.png
+    - lib/assets/images/undraw_Site_stats_re_ejgy.png
+    - lib/assets/images/undraw_Sorting_thoughts_re_fgli.png
+    - lib/assets/images/undraw_Spreadsheets_re_alt0.png
+    - lib/assets/images/undraw_Team_collaboration_re_ow29.png
+    - lib/assets/images/undraw_Time_management_re_tk5w.png
+    - lib/assets/images/undraw_Winners_re_wr1l.png
+    
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

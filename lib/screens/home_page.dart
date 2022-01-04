@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:meet_on_time/screens/event_page.dart';
 import 'package:meet_on_time/utils/authentication.dart';
 import 'package:meet_on_time/widgets/auth_dialog.dart';
+import 'package:meet_on_time/widgets/featured_heading.dart';
+import 'package:meet_on_time/widgets/featured_tiles.dart';
 
 import '../widgets/event_dialog.dart';
+import '../widgets/floating_quick_access_bar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -175,18 +177,20 @@ class _HomePageState extends State<HomePage> {
                   fit: BoxFit.cover),
             ),
           ),
-          Center(
-            heightFactor: 1,
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: screenSize.height * 0.40,
-                left: screenSize.width / 5,
-                right: screenSize.width / 5,
+          Column(
+            children: [
+              FloatingQuickAccessBar(screenSize: screenSize),
+              Container(
+                child: Column(
+                  children: [
+                    FeaturedHeading(
+                      screenSize: screenSize,
+                    ),
+                    FeaturedTiles(screenSize: screenSize)
+                  ],
+                ),
               ),
-
-              ///if ile aç
-              //child: EventPage(),
-            ),
+            ],
           ),
         ],
       ),
