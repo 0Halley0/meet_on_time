@@ -126,7 +126,7 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EventPage()),
+                    MaterialPageRoute(builder: (context) => const EventPage()),
                   );
                   if (_chooseparticipantsFormKey.currentState != null) {
                     ScaffoldMessenger.of(context).showSnackBar(

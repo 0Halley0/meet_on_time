@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meet_on_time/data/model/event.dart';
 import 'package:meet_on_time/utils/cloud_firestore.dart';
-import '../data/model/participant.dart';
 import 'options_dialog.dart';
 import '../utils/authentication.dart';
 

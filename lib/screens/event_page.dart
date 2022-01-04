@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:collection/collection.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
@@ -13,31 +14,39 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage> {
   late List<bool> isSelected = [];
 
+  Future<void> firestoreEventOptions = FirebaseFirestore.instance
+      .collection('Events')
+      .doc('eventOptions')
+      .get()
+      .then((value) {
+    print(value.data());
+  });
+
   final List<Map> _items = [
     {
       'id': 1,
-      'Event Time': 't1',
-      'Event Choices': 'c1',
+      'EventTime': 't1',
+      'EventChoices': 'c1',
     },
     {
       'id': 2,
-      'Event Time': 't2',
-      'Event Choices': 'c2',
+      'EventTime': 't2',
+      'EventChoices': 'c2',
     },
     {
       'id': 3,
-      'Event Time': 't3',
-      'Event Choices': 'c3',
+      'EventTime': 't3',
+      'EventChoices': 'c3',
     },
     {
       'id': 4,
-      'Event Time': 't4',
-      'Event Choices': 'c4',
+      'EventTime': 't4',
+      'EventChoices': 'c4',
     },
     {
       'id': 5,
-      'Event Time': 't5',
-      'Event Choices': 'c5',
+      'EventTime': 't5',
+      'EventChoices': 'c5',
     }
   ];
 
@@ -47,6 +56,7 @@ class _EventPageState extends State<EventPage> {
     isSelected = List<bool>.generate(_items.length, (index) => false);
   }
 
+  @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
 
@@ -106,8 +116,8 @@ class _EventPageState extends State<EventPage> {
         .mapIndexed((index, item) => DataRow(
                 cells: [
                   DataCell(Text('#' + item['id'].toString())),
-                  DataCell(Text(item['event time'])),
-                  DataCell(Text(item['event choices']))
+                  DataCell(Text(item['EventTime'])),
+                  DataCell(Text(item['EventChoices']))
                 ],
                 selected: isSelected[index],
                 onSelectChanged: (bool? selected) {

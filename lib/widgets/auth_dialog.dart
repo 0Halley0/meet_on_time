@@ -1,20 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:meet_on_time/data/model/participant.dart';
 import 'package:meet_on_time/screens/home_page.dart';
 import 'package:meet_on_time/utils/authentication.dart';
-import 'package:meet_on_time/utils/cloud_firestore.dart';
 import 'google_sign_in_button.dart';
 
 //login butonuyla addParticipant çağır
 FirebaseAuth auth = FirebaseAuth.instance;
 String uid = auth.currentUser!.uid.toString();
 String email = auth.currentUser!.email.toString();
+bool choice = false;
+var pemailList = [];
+var pchoicesList = [];
+var pidList = [];
 
 // Kullanıcının uid, seçenekleri ve email'i
 //                           uid option email
-Participant p = Participant(uid, null, email);
+//Participant p = Participant(uid, null, email);
 // firebase_auth email uid
+FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 class AuthDialog extends StatefulWidget {
   @override
@@ -135,6 +139,7 @@ class _AuthDialogState extends State<AuthDialog> {
                     controller: textControllerEmail,
                     autofocus: false,
                     onChanged: (value) {
+                      email = value;
                       setState(() {
                         _isEditingEmail = true;
                       });
@@ -249,6 +254,24 @@ class _AuthDialogState extends State<AuthDialog> {
                               ),
                             ),
                             onPressed: () async {
+                              pemailList.add(email);
+                              FirebaseFirestore.instance
+                                  .collection('Participants')
+                                  .doc('participantLog')
+                                  .update({
+                                "participantEmail":
+                                    FieldValue.arrayUnion(pemailList)
+                              });
+
+                              pchoicesList.add(choice);
+                              FirebaseFirestore.instance
+                                  .collection('Participants')
+                                  .doc('participantLog')
+                                  .update({
+                                "participantChoices":
+                                    FieldValue.arrayUnion(pchoicesList)
+                              });
+
                               setState(() {
                                 _isLoggingIn = true;
                                 textFocusNodeEmail.unfocus();
@@ -274,7 +297,8 @@ class _AuthDialogState extends State<AuthDialog> {
                                     Future.delayed(Duration(milliseconds: 500),
                                         () {
                                       //
-                                      newParticipants(p);
+                                      //newParticipants(
+                                      // uid, pemailList, pchoicesList);
                                       //
                                       Navigator.of(context).pop();
                                       Navigator.of(context)

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../data/model/participant.dart';
 
 /* 
 Kullanici olayin ismini, yerini, notlarini vs. secer
@@ -44,12 +43,13 @@ DocumentReference firestoreEvents_addParticipantToEvent = FirebaseFirestore
 // Future<void> addParticipants(
 //    String? pid, List<bool>? participantChoices, String? participantEmail) {
 // Call the participants' CollectionReference to add a new user
-Future<void> newParticipants(Participant participant) {
+Future<void> newParticipants(List<String> pid, List<String> participantEmail,
+    List<bool> participantChoices) {
   return firestoreParticipants
       .add({
-        'pid': participant.pid,
-        'participantChoices': participant.participantChoices,
-        'participantEmail': participant.participantEmail,
+        'pid': pid,
+        'participantChoices': participantChoices,
+        'participantEmail': participantEmail,
       })
       .then((value) => print("Participant Added"))
       .catchError((error) => print("Failed to add participants: $error"));
