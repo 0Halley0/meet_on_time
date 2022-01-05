@@ -10,9 +10,9 @@ class FeaturedTiles extends StatelessWidget {
   final Size screenSize;
 
   final List<String> assets = [
-    'assets/images/undraw_Time_management_re_tk5w.png',
-    'assets/images/undraw_Connection_re_lcud.png',
-    'assets/images/undraw_Winners_re_wr1l.png',
+    'lib/assets/images/undraw_Time_management_re_tk5w.png',
+    'lib/assets/images/undraw_Connection_re_lcud.png',
+    'lib/assets/images/undraw_Winners_re_wr1l.png',
   ];
 
   final List<String> title = [
@@ -59,10 +59,7 @@ class FeaturedTiles extends StatelessWidget {
                                   fontSize: 16,
                                   fontFamily: 'Montserrat',
                                   fontWeight: FontWeight.w500,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .subtitle1!
-                                      .color,
+                                  color: const Color(0xFF6E675F),
                                 ),
                               ),
                             ),
@@ -109,10 +106,7 @@ class FeaturedTiles extends StatelessWidget {
                             fontSize: 16,
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w500,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .subtitle1!
-                                .color,
+                            color: const Color(0xFF6E675F),
                           ),
                         ),
                       ),

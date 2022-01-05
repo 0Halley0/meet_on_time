@@ -17,7 +17,12 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
   List _isHovering = [false, false, false, false];
   List<Widget> rowElements = [];
 
-  List<String> items = ['Destination', 'Dates', 'People', 'Experience'];
+  List<String> items = [
+    'Destination',
+    'Dates',
+    'People',
+    'Experience'
+  ]; //değişecek
   List<IconData> icons = [
     Icons.location_on,
     Icons.date_range,
@@ -40,9 +45,9 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
         child: Text(
           items[i],
           style: TextStyle(
-            color: _isHovering[i]
-                ? Theme.of(context).primaryTextTheme.button!.decorationColor
-                : Theme.of(context).primaryTextTheme.button!.color,
+            color: _isHovering[1]
+                ? const Color(0xFFE3B23C)
+                : const Color(0xFF6E675F),
           ),
         ),
       );
@@ -106,10 +111,7 @@ class _FloatingQuickAccessBarState extends State<FloatingQuickAccessBar> {
                                 child: Text(
                                   items[pageIndex],
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .button!
-                                          .color,
+                                      color: const Color(0xFF6E675F),
                                       fontSize: 16),
                                 ),
                               ),
