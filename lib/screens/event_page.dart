@@ -4,6 +4,8 @@ import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+Map<String, dynamic>? timeData = Map<String, dynamic>();
+
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
 
@@ -14,80 +16,39 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage> {
   late List<bool> isSelected = [];
 
-// List<String> eventTimeList = <String>[];
-// // offset'in bizimle alakasi yok, bu oradaki adamin kullandigi bir veri tipi yada string tam detayli bakmadim  String yaptım
-// // adam ne manyakmis da sayilari string icinde tut ya da ben herseyi yanlis anladim
-// getdata() async{
-//   await FirebaseFirestore.instance.collection("Events").doc('eventOptions').get().then((value){
-// setState(() {
-//       // first add the data to the Offset object
-//       List.from(value.data['eventChoices','eventTime']).forEach((element){  //burayı çözersek olacak gibi
-//           String data = new Offset(element);
-//           // offset'in bizimle alakasi yok ama mantik dogru gibi geliyor
-//           //then add the data to the List<Offset>, now we have a type Offset
-//           eventTimeList.add(element);
-//       });
-//
-//       });
-//    });
-//   }
-
-  /*  var document = await FirebaseFirestore.instance.collection('Events').doc('eventOptions');
-document.get() => then(function(document) {
-    print(document("eventTime"));
-});
-
-  var getTableData = FirebaseFirestore.instance
-      .collection('Events')
-      .doc('eventOptions')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-              print(doc["eventTimes"]);
-          });
-      }); */
-
   Future<void> firestoreEventOptions = FirebaseFirestore.instance
       .collection('Events')
       .doc('eventOptions')
       .get()
       .then((value) {
-    List<String> eventTimeList = [];
-    eventTimeList = value.data()!['eventTime'];
-    print(eventTimeList);
-    value = FirebaseFirestore.instance
-        .collection("Events")
-        .doc('eventOptions')
-        .get() as DocumentSnapshot<Map<String, dynamic>>;
-
-    eventTimeList = value.data()!["eventTime"]["0"]; //
+    timeData = value.data();
+    print(timeData.toString());
   });
-  // eventTimeList string mi olmali ? evet string işaretlemişiz
-  // value.data()!["eventTime"] List<List<String>> mi gonderiyor o zaman ?  string göndermesi gerek
+
   final List<Map> _items = [
     {
       'id': 1,
-      'EventTime': 'eventTimeList',
+      'EventTime': timeData!['eventTime'][0].toString(),
       'EventChoices': 'event Choices',
     },
     {
       'id': 2,
-      'EventTime': 't2',
+      'EventTime': timeData!['eventTime'][1].toString(),
       'EventChoices': 'c2',
     },
     {
       'id': 3,
-      'EventTime': 't3',
+      'EventTime': timeData!['eventTime'][2].toString(),
       'EventChoices': 'c3',
     },
     {
       'id': 4,
-      'EventTime': 't4',
+      'EventTime': timeData!['eventTime'][3].toString(),
       'EventChoices': 'c4',
     },
     {
       'id': 5,
-      'EventTime': 't5',
+      'EventTime': timeData!['eventTime'][4].toString(),
       'EventChoices': 'c5',
     }
   ];
@@ -218,3 +179,52 @@ document.get() => then(function(document) {
                 
                 
                 */
+                // List<String> eventTimeList = <String>[];
+// // offset'in bizimle alakasi yok, bu oradaki adamin kullandigi bir veri tipi yada string tam detayli bakmadim  String yaptım
+// // adam ne manyakmis da sayilari string icinde tut ya da ben herseyi yanlis anladim
+// getdata() async{
+//   await FirebaseFirestore.instance.collection("Events").doc('eventOptions').get().then((value){
+// setState(() {
+//       // first add the data to the Offset object
+//       List.from(value.data['eventChoices','eventTime']).forEach((element){  //burayı çözersek olacak gibi
+//           String data = new Offset(element);
+//           // offset'in bizimle alakasi yok ama mantik dogru gibi geliyor
+//           //then add the data to the List<Offset>, now we have a type Offset
+//           eventTimeList.add(element);
+//       });
+//
+//       });
+//    });
+//   }
+
+  /*  var document = await FirebaseFirestore.instance.collection('Events').doc('eventOptions');
+document.get() => then(function(document) {
+    print(document("eventTime"));
+});
+
+  var getTableData = FirebaseFirestore.instance
+      .collection('Events')
+      .doc('eventOptions')
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+          querySnapshot.docs.forEach((doc) {
+              print(doc["eventTimes"]);
+          });
+      }); */
+
+  /* Future<void> firestoreEventOptions = FirebaseFirestore.instance
+      .collection('Events')
+      .doc('eventOptions')
+      .get()
+      .then((value) {
+    List<dynamic> eventTimeList = [];
+    eventTimeList = value.data()!['eventTime'];
+    print(eventTimeList);
+    value = FirebaseFirestore.instance
+        .collection("Events")
+        .doc('eventOptions')
+        .get() as DocumentSnapshot<Map<String, dynamic>>;
+
+    eventTimeList = value.data()!["eventTime"];
+    print(eventTimeList);
+  }); */
