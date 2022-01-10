@@ -1,10 +1,12 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_function_type_syntax_for_parameters
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:collection/collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:meet_on_time/widgets/poll_settings_dialog.dart';
+import '../globals.dart' as globals;
 
-Map<String, dynamic>? timeData = Map<String, dynamic>();
+Map<String, dynamic>? firestoreData = Map<String, dynamic>();
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
@@ -15,41 +17,42 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   late List<bool> isSelected = [];
+  List<int> voteCount = [];
 
-  Future<void> firestoreEventOptions = FirebaseFirestore.instance
+  /* Future<void> firestoreEventOptions = FirebaseFirestore.instance
       .collection('Events')
       .doc('eventOptions')
       .get()
       .then((value) {
-    timeData = value.data();
-    print(timeData.toString());
-  });
+    firestoreData = value.data();
+    print(firestoreData.toString());
+  }); */
 
   final List<Map> _items = [
     {
-      'id': 1,
-      'EventTime': timeData!['eventTime'][0].toString(),
-      'EventChoices': 'event Choices',
+      'id': 0,
+      'EventTime': firestoreData!['eventTime'][0].toString(),
+      'EventChoices': firestoreData!['eventChoices'][0].toString(),
     },
     {
-      'id': 2,
-      'EventTime': timeData!['eventTime'][1].toString(),
-      'EventChoices': 'c2',
+      'id': 0,
+      'EventTime': firestoreData!['eventTime'][1].toString(),
+      'EventChoices': firestoreData!['eventChoices'][1].toString(),
     },
     {
-      'id': 3,
-      'EventTime': timeData!['eventTime'][2].toString(),
-      'EventChoices': 'c3',
+      'id': 0,
+      'EventTime': firestoreData!['eventTime'][2].toString(),
+      'EventChoices': firestoreData!['eventChoices'][2].toString(),
     },
     {
-      'id': 4,
-      'EventTime': timeData!['eventTime'][3].toString(),
-      'EventChoices': 'c4',
+      'id': 0,
+      'EventTime': firestoreData!['eventTime'][3].toString(),
+      'EventChoices': firestoreData!['eventChoices'][3].toString(),
     },
     {
-      'id': 5,
-      'EventTime': timeData!['eventTime'][4].toString(),
-      'EventChoices': 'c5',
+      'id': 0,
+      'EventTime': firestoreData!['eventTime'][4].toString(),
+      'EventChoices': firestoreData!['eventChoices'][4].toString(),
     }
   ];
 
@@ -102,23 +105,27 @@ class _EventPageState extends State<EventPage> {
     );
   }
 
+//Duration bekle = Duration(seconds: 5);
   DataTable _createDataTable() {
+    print("createDataTable cagrildi");
     return DataTable(columns: _createColumns(), rows: _createRows());
   }
 
   List<DataColumn> _createColumns() {
     return [
-      DataColumn(label: Text('ID')),
+      DataColumn(label: Text('Votes')),
       DataColumn(label: Text('Time')),
       DataColumn(label: Text('Option'))
     ];
   }
 
+//Text( item['id'].toString())
+
   List<DataRow> _createRows() {
     return _items
         .mapIndexed((index, item) => DataRow(
                 cells: [
-                  DataCell(Text('#' + item['id'].toString())),
+                  DataCell(Text(item['id'].toString())),
                   DataCell(Text(item['EventTime'])),
                   DataCell(Text(item['EventChoices']))
                 ],
@@ -126,105 +133,66 @@ class _EventPageState extends State<EventPage> {
                 onSelectChanged: (bool? selected) {
                   setState(() {
                     isSelected[index] = selected!;
+//yeni
+                    if (globals.hiddenPollToggle == true) {
+                      item['id'] = 'Hidden';
+
+                      if (isSelected[index] == true) {
+                        voteCount[index] += 1;
+                      } else {
+                        voteCount[index] -= 1;
+                      }
+                    }
+
+                    while (globals.singleVoteToggle == true) {
+                      if (isSelected[index] == true) {}
+                    }
+//yeni
+                    if (isSelected[index] == true) {
+                      item['id'] += 1;
+                    } else {
+                      item['id'] -= 1;
+                    }
                   });
                 }))
         .toList();
   }
 }
 
-/* Padding(
-                padding: EdgeInsets.only(top: screenSize.height / 50),
-                child: DataTable(
-                  //6 sütun 4 satır
-                  sortColumnIndex: 0,
-                  sortAscending: true,
-                  showCheckboxColumn: true,
-                  showBottomBorder: false,
-                  dividerThickness: 1.0,
-                  columns: [
-                    DataColumn(label: Text('  ')),
-                    DataColumn(
-                      label: Text('sütun2'), //numeric: true
-                    ),
-                    DataColumn(label: Text('sütun3')),
-                    DataColumn(label: Text('sütun4')),
-                    DataColumn(label: Text('sütun5')),
-                    DataColumn(label: Text('sütun6')),
-                  ],
-                  rows: [
-                    DataRow(cells: [
-                      DataCell(
-                        Text('örnek'),
-                      ),
-                      DataCell(
-                        Text('örnek'), //placeholder: true
-                      )
-                    ]),
-                    DataRow(cells: [
-                      DataCell(Text('örnek')),
-                      DataCell(Text('örnek'))
-                    ]),
-                  ],
-                )), 
-                
-                -------------------------------------------------
-                
-                Future<void> firestoreEventOptions = FirebaseFirestore.instance
-      .collection('Events')
-      .doc('eventOptions')
-      .get()
-      .then((value) {
-    print(value.data());
-  });
-                
-                
-                */
-                // List<String> eventTimeList = <String>[];
-// // offset'in bizimle alakasi yok, bu oradaki adamin kullandigi bir veri tipi yada string tam detayli bakmadim  String yaptım
-// // adam ne manyakmis da sayilari string icinde tut ya da ben herseyi yanlis anladim
-// getdata() async{
-//   await FirebaseFirestore.instance.collection("Events").doc('eventOptions').get().then((value){
-// setState(() {
-//       // first add the data to the Offset object
-//       List.from(value.data['eventChoices','eventTime']).forEach((element){  //burayı çözersek olacak gibi
-//           String data = new Offset(element);
-//           // offset'in bizimle alakasi yok ama mantik dogru gibi geliyor
-//           //then add the data to the List<Offset>, now we have a type Offset
-//           eventTimeList.add(element);
-//       });
-//
-//       });
-//    });
-//   }
+//bool hiddenPollToggle = false; //bool eventSettings
+//bool singleVoteToggle = false; //bool eventSettings2
+/* 
+void pollOptions() {
+  if (globals.hiddenPollToggle == true) {
+    print('hiddenPollToggle doğru');
+    //katılımcılar sonucu oylama sonlanmadan göremez,
+    String hiddenVote = 'Hidden';
+    
+  } else {
+    //bütün katılımcılar oy sonuçlarını görür
+  }
 
-  /*  var document = await FirebaseFirestore.instance.collection('Events').doc('eventOptions');
-document.get() => then(function(document) {
-    print(document("eventTime"));
-});
+  if (globals.singleVoteToggle == true) {
+    print('singleVoteToggle doğru');
+    //katılımcılar sadece tek bir seçeneği işaretleyebilir
 
-  var getTableData = FirebaseFirestore.instance
-      .collection('Events')
-      .doc('eventOptions')
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-          querySnapshot.docs.forEach((doc) {
-              print(doc["eventTimes"]);
-          });
-      }); */
 
-  /* Future<void> firestoreEventOptions = FirebaseFirestore.instance
-      .collection('Events')
-      .doc('eventOptions')
-      .get()
-      .then((value) {
-    List<dynamic> eventTimeList = [];
-    eventTimeList = value.data()!['eventTime'];
-    print(eventTimeList);
-    value = FirebaseFirestore.instance
-        .collection("Events")
-        .doc('eventOptions')
-        .get() as DocumentSnapshot<Map<String, dynamic>>;
+  } else {
+    //katılımcılar birden fazla seçeneği işaretleyebilir
+  }
+} 
 
-    eventTimeList = value.data()!["eventTime"];
-    print(eventTimeList);
-  }); */
+
+
+
+setState(() {
+                    isSelected[index] = selected!;
+                    if (isSelected[index] == true) {
+                      item['id'] += 1;
+                    } else {
+                      item['id'] -= 1;
+                    }
+                  });
+*/
+
+

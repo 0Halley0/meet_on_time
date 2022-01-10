@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:meet_on_time/screens/event_page.dart';
 import 'package:meet_on_time/utils/cloud_firestore.dart';
 import 'package:meet_on_time/widgets/choose_participants.dart';
+import '../globals.dart' as globals;
 
 class PollSettingsDialog extends StatefulWidget {
   @override
@@ -75,8 +77,10 @@ class pollSettingsForm extends StatefulWidget {
 
 class pollSettingsFormState extends State<pollSettingsForm> {
   final _settingsFormKey = GlobalKey<pollSettingsFormState>();
-  bool _hiddenPollToggle = false; //bool eventSettings
-  bool _singleVoteToggle = false; //bool eventSettings2
+  view() {
+    globals.hiddenPollToggle = false; //bool eventSettings
+    globals.singleVoteToggle = false; //bool eventSettings2
+  }
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -92,9 +96,9 @@ class pollSettingsFormState extends State<pollSettingsForm> {
             subtitle: Text(
                 "Participants’ names, comments and votes are confidential. Only you can see the results."),
             isThreeLine: true,
-            value: _hiddenPollToggle,
+            value: globals.hiddenPollToggle,
             onChanged: (bool value) {
-              setState(() => _hiddenPollToggle = value);
+              setState(() => globals.hiddenPollToggle = value);
             },
             activeColor: Colors.green.shade300,
           ),
@@ -102,9 +106,9 @@ class pollSettingsFormState extends State<pollSettingsForm> {
             title: Text("Limit participants to a single vote"),
             subtitle: Text("Participants can only select one option."),
             isThreeLine: true,
-            value: _singleVoteToggle,
+            value: globals.singleVoteToggle,
             onChanged: (bool value) {
-              setState(() => _singleVoteToggle = value);
+              setState(() => globals.singleVoteToggle = value);
             },
             activeColor: Colors.green.shade300,
           ),
@@ -115,9 +119,10 @@ class pollSettingsFormState extends State<pollSettingsForm> {
                 // boolSettings(eventSettings, eventSettings2);
                 // uid + saat
                 firestore.collection("Events").doc('boolSettings').set({
-                  'eventSettings': _hiddenPollToggle,
-                  'eventSettings2': _singleVoteToggle,
+                  'eventSettings': globals.hiddenPollToggle,
+                  'eventSettings2': globals.singleVoteToggle,
                 });
+
                 showDialog(
                   context: context,
                   builder: (context) => ChooseParticipantsDialog(),
