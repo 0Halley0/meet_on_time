@@ -17,7 +17,7 @@ class EventPage extends StatefulWidget {
 
 class _EventPageState extends State<EventPage> {
   late List<bool> isSelected = [];
-  List<int> voteCount = [];
+  List<int> voteCount = [0, 0, 0, 0, 0];
 
   /* Future<void> firestoreEventOptions = FirebaseFirestore.instance
       .collection('Events')
@@ -133,9 +133,8 @@ class _EventPageState extends State<EventPage> {
                 onSelectChanged: (bool? selected) {
                   setState(() {
                     isSelected[index] = selected!;
-//yeni
                     if (globals.hiddenPollToggle == true) {
-                      item['id'] = 'Hidden';
+                      item['id'] = "hidden";
 
                       if (isSelected[index] == true) {
                         voteCount[index] += 1;
@@ -144,14 +143,17 @@ class _EventPageState extends State<EventPage> {
                       }
                     }
 
-                    while (globals.singleVoteToggle == true) {
+                    if (globals.singleVoteToggle == true) {
                       if (isSelected[index] == true) {}
                     }
+
 //yeni
-                    if (isSelected[index] == true) {
-                      item['id'] += 1;
-                    } else {
-                      item['id'] -= 1;
+                    if (globals.hiddenPollToggle == false) {
+                      if (isSelected[index] == true) {
+                        item['id'] += 1;
+                      } else {
+                        item['id'] -= 1;
+                      }
                     }
                   });
                 }))
@@ -181,18 +183,8 @@ void pollOptions() {
     //katılımcılar birden fazla seçeneği işaretleyebilir
   }
 } 
-
-
-
-
-setState(() {
-                    isSelected[index] = selected!;
-                    if (isSelected[index] == true) {
-                      item['id'] += 1;
-                    } else {
-                      item['id'] -= 1;
-                    }
-                  });
 */
+
+
 
 
