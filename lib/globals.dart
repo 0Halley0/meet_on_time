@@ -4,3 +4,5 @@ bool hiddenPollToggle = false; //bool eventSettings
 bool singleVoteToggle = false; //bool eventSettings2
 
 
+
+

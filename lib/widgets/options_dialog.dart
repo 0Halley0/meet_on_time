@@ -61,17 +61,6 @@ class _OptionsDialogState extends State<OptionsDialog> {
                   ),
                 ),
                 optionForm(),
-                Container(
-                  height: 250,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: ListView.builder(
-                    itemCount: 5, //daha sonra kullanıcının girdiği kadar olacak
-                    itemBuilder: (context, index) {
-                      // return Text('Kullanıcının girdisi');
-                      return Text(dateText);
-                    },
-                  ),
-                ),
               ],
             ),
           ),

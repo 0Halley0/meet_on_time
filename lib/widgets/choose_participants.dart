@@ -124,16 +124,6 @@ class ChooseParticipantsFormState extends State<ChooseParticipantsForm> {
                   child: Text('Add')),
               ElevatedButton(
                 onPressed: () {
-                  Future<void> firestoreEventOptions = FirebaseFirestore
-                      .instance
-                      .collection('Events')
-                      .doc('eventOptions')
-                      .get()
-                      .then((value) {
-                    firestoreData = value.data();
-                    print(firestoreData.toString());
-                  });
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const EventPage()),

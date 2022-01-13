@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, use_function_type_syntax_for_parameters
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:collection/collection.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:meet_on_time/widgets/poll_settings_dialog.dart';
 import '../globals.dart' as globals;
 
 Map<String, dynamic>? firestoreData = Map<String, dynamic>();
@@ -19,14 +18,14 @@ class _EventPageState extends State<EventPage> {
   late List<bool> isSelected = [];
   List<int> voteCount = [0, 0, 0, 0, 0];
 
-  /* Future<void> firestoreEventOptions = FirebaseFirestore.instance
+  Future<void> firestoreEventOptions = FirebaseFirestore.instance
       .collection('Events')
       .doc('eventOptions')
       .get()
       .then((value) {
     firestoreData = value.data();
     print(firestoreData.toString());
-  }); */
+  });
 
   final List<Map> _items = [
     {
@@ -67,42 +66,64 @@ class _EventPageState extends State<EventPage> {
     var screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size(screenSize.width, 1000),
-        child: Container(
-          color: const Color(0xFFEDEBD7),
-          child: Padding(
-            padding: EdgeInsets.all(20),
-            child: Row(
-              children: [
-                Text('MEET ON TIME'),
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: 5),
-                      SizedBox(width: screenSize.width / 20),
-                    ],
+        extendBodyBehindAppBar: true,
+        appBar: PreferredSize(
+          preferredSize: Size(screenSize.width, 1000),
+          child: Container(
+            color: const Color(0xFFEDEBD7),
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Text('MEET ON TIME'),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 5),
+                        SizedBox(width: screenSize.width / 20),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: screenSize.width / 50,
-                ),
-              ],
+                  SizedBox(
+                    width: screenSize.width / 50,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      body: ListView(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: _createDataTable(),
-          ),
-        ],
-      ),
-    );
+        body: Stack(
+          children: [
+            Positioned(
+              child: ListView(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: _createDataTable(),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              child: Image.asset(
+                'lib/assets/images/undraw_Winners_re_wr1l.png',
+                width: screenSize.width / 6,
+                height: screenSize.height / 6,
+              ),
+              top: screenSize.height / 2,
+              left: screenSize.width / 2,
+              height: screenSize.height / 2,
+              width: screenSize.width / 2,
+            ),
+            Positioned(
+              child: Image.asset('lib/assets/images/undraw_Choose_re_7d5a.png'),
+              top: screenSize.height / 2,
+              height: screenSize.height / 2,
+              width: screenSize.width / 2,
+            ),
+          ],
+        ));
   }
 
 //Duration bekle = Duration(seconds: 5);
@@ -144,11 +165,25 @@ class _EventPageState extends State<EventPage> {
                     }
 
                     if (globals.singleVoteToggle == true) {
-                      if (isSelected[index] == true) {}
+                      if (isSelected[index] == true) {
+                        for (int i = 0; i < index; i++) {
+                          isSelected[i] = false;
+                        }
+                        for (int i = index + 1; i < 5; i++) {
+                          isSelected[i] = false;
+                        }
+                      }
                     }
 
-//yeni
-                    if (globals.hiddenPollToggle == false) {
+                    if (globals.hiddenPollToggle == false &&
+                        globals.singleVoteToggle == false) {
+                      if (isSelected[index] == true) {
+                        item['id'] += 1;
+                      } else {
+                        item['id'] -= 1;
+                      }
+                    } else if (globals.hiddenPollToggle == false &&
+                        globals.singleVoteToggle == true) {
                       if (isSelected[index] == true) {
                         item['id'] += 1;
                       } else {

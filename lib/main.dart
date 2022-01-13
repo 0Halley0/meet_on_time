@@ -37,6 +37,8 @@ class _MyAppState extends State<MyApp> {
       title: 'MEET ON TIME',
       debugShowCheckedModeBanner: false,
       themeMode: EasyDynamicTheme.of(context).themeMode,
+      theme: new ThemeData(
+          scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 255)),
       home: HomePage(),
     );
   }

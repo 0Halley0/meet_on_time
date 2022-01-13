@@ -12,7 +12,7 @@ class FeaturedTiles extends StatelessWidget {
   final List<String> assets = [
     'lib/assets/images/undraw_Time_management_re_tk5w.png',
     'lib/assets/images/undraw_Connection_re_lcud.png',
-    'lib/assets/images/undraw_Winners_re_wr1l.png',
+    'lib/assets/images/undraw_Sorting_thoughts_re_fgli.png',
   ];
 
   final List<String> title = [
